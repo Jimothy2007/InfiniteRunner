@@ -352,6 +352,7 @@ GameObject:
   - component: {fileID: 1568660235}
   - component: {fileID: 1568660234}
   - component: {fileID: 1568660233}
+  - component: {fileID: 1568660236}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -399,8 +400,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!61 &1568660234
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -506,6 +507,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1568660236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568660231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7730529030adf1d488b08090ee761b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  movementSpeed: 5
+  rb: {fileID: 0}
 --- !u!1 &1866243061
 GameObject:
   m_ObjectHideFlags: 0
