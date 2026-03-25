@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 7f;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool jumpPressed;
-    [SerializeField] private BoxCollider2D groundCheck;
 
     private Rigidbody2D rb;
     private UnityEngine.InputSystem.PlayerInput controls;
@@ -21,10 +20,6 @@ public class PlayerController : MonoBehaviour
         if (controls == null)
         {
             controls = GetComponent<UnityEngine.InputSystem.PlayerInput>();
-        }
-        if (groundCheck == null)
-        {
-            Debug.Log("Ground Check Collider is not assigned in the inspector.");
         }
     }
 
@@ -42,7 +37,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(UnityEngine.Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {

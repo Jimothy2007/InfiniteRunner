@@ -525,7 +525,6 @@ MonoBehaviour:
   jumpHeight: 5
   isGrounded: 0
   jumpPressed: 0
-  groundCheck: {fileID: 1568660238}
 --- !u!114 &1568660237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,6 +692,7 @@ GameObject:
   - component: {fileID: 1866243064}
   - component: {fileID: 1866243063}
   - component: {fileID: 1866243062}
+  - component: {fileID: 1866243065}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Ground
@@ -814,12 +814,24 @@ Transform:
   m_GameObject: {fileID: 1866243061}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.45, z: 0}
-  m_LocalScale: {x: 23.4596, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -3.39, z: 0}
+  m_LocalScale: {x: 20.433311, y: 3.38, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1866243065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866243061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74872a0d278864543a7a34b6d4230414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
