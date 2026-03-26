@@ -29,11 +29,11 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
             isGrounded = false;
-            jumpPressed = false;
         }
-        else if (jumpPressed)
+
+        if (!jumpPressed && rb.linearVelocity.y > 0)
         {
-            jumpPressed = false;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
         }
     }
 
