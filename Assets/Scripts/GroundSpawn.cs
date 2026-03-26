@@ -3,15 +3,14 @@ using UnityEngine;
 public class GroundSpawn : MonoBehaviour
 {
     [SerializeField] private GameObject groundPrefab;
-    [SerializeField] private float spawnRate = 2f;
+    [SerializeField] private float spawnRate = 6f;
     [SerializeField] private float timer = 0f;
-    [SerializeField] private float heightOffset = 10f;
+    [SerializeField] private float heightOffset = 1.75f;
     void Start()
     {
         spawnGround();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (timer < spawnRate)
