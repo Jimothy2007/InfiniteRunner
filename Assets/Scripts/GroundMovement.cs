@@ -4,6 +4,7 @@ public class GroundMovement : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 4f;
     [SerializeField] private float deadZone = -40f;
+    [SerializeField] float heightOffset = 1.75f;
 
     void Update()
     {
@@ -14,5 +15,10 @@ public class GroundMovement : MonoBehaviour
             Debug.Log("Ground Destroyed");
             Destroy(gameObject);
         }
+    }
+
+    public float getHeightOffset()
+    {
+        return heightOffset;
     }
 }
