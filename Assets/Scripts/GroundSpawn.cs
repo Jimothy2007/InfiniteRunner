@@ -38,15 +38,20 @@ public class GroundSpawn : MonoBehaviour
             highestPoint -= 0.25f;
         }
 
-        Instantiate(randomPrefab, new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), transform.position.z), Quaternion.identity);
-        spawnObstacle(randomPrefab);
+        GameObject groundInstance = Instantiate(randomPrefab, new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), transform.position.z), Quaternion.identity);
+        spawnObstacle(groundInstance);
     }
 
-    void spawnObstacle(GameObject groundPrefab)
+    void spawnObstacle(GameObject groundInstance)
     {
-        if (groundPrefab == groundPrefab1)
-        {
-            //var randomObstacleSpawn = 
-        }
+        int childCount = groundInstance.transform.childCount;
+
+        var randomObstacleSpawn = Random.Range(0, childCount);
+
+        Transform spawnPoint = groundInstance.transform.GetChild(randomObstacleSpawn);
+
+        Instantiate(obstacle, new Vector3(spawnPoint.position.x, spawnPoint.position.y, transform.position.z), Quaternion.identity);
+
+        Debug.Log("Spawned obstacle at: " + spawnPoint.position);
     }
 }
