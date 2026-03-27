@@ -39,7 +39,13 @@ public class GroundSpawn : MonoBehaviour
         }
 
         GameObject groundInstance = Instantiate(randomPrefab, new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), transform.position.z), Quaternion.identity);
-        spawnObstacle(groundInstance);
+
+        var randNum = Random.Range(0, 3);
+
+        if ((randNum == 0) || (randNum == 1))
+        {
+            spawnObstacle(groundInstance);
+        }
     }
 
     void spawnObstacle(GameObject groundInstance)
