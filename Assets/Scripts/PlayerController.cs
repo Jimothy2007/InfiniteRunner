@@ -3,10 +3,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private int health = 3;
     [SerializeField] private float jumpHeight = 7f;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool jumpPressed;
+    [SerializeField] private int health = 3;
 
     private Rigidbody2D rb;
     private UnityEngine.InputSystem.PlayerInput controls;
@@ -43,11 +43,27 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            takeDamage(1);
+        }
     }
 
     void OnJump(InputValue value)
     {
         Debug.Log("Jump Pressed");
         jumpPressed = value.isPressed;
+    }
+
+    void takeDamage(int damage)
+    {
+        Debug.Log("Player took damage: " + damage);
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Debug.Log("Player has died.");
+            // Implement death logic here (e.g., respawn, game over screen, etc.)
+        }
     }
 }
