@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class GroundMovement : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed = 4f;
+    private float movementSpeed;
     [SerializeField] private float deadZone = -40f;
     [SerializeField] float heightOffset = 1.75f;
 
     void Update()
     {
-        transform.position = transform.position + (Vector3.left * movementSpeed) * Time.deltaTime;
+        movementSpeed = GameManager.instance.movementSpeed;
+
+        transform.position += (Vector3.left * movementSpeed) * Time.deltaTime;
 
         if (transform.position.x < deadZone)
         {

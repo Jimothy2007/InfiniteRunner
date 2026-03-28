@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool jumpPressed;
     [SerializeField] private int health = 3;
+    [SerializeField] private bool isAlive = true;
 
     private Rigidbody2D rb;
     private UnityEngine.InputSystem.PlayerInput controls;
@@ -37,6 +38,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (health <= 0 && isAlive)
+        {
+            isAlive = false;
+            Debug.Log("Player has died.");
+        }
+    }
     void OnTriggerEnter2D(UnityEngine.Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -63,7 +72,7 @@ public class PlayerController : MonoBehaviour
         if (health <= 0)
         {
             Debug.Log("Player has died.");
-            // Implement death logic here (e.g., respawn, game over screen, etc.)
+            GameManager.instance.Death();
         }
     }
 }

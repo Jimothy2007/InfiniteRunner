@@ -7,6 +7,7 @@ public class GroundSpawn : MonoBehaviour
     [SerializeField] private GameObject obstacle;
     [SerializeField] private float spawnRate = 4f;
     [SerializeField] private float timer = 0f;
+    [SerializeField] private float baseDistance = 10f;
     void Start()
     {
         spawnGround();
@@ -14,6 +15,10 @@ public class GroundSpawn : MonoBehaviour
 
     void Update()
     {
+        float movementSpeed = GameManager.instance.movementSpeed;
+
+        spawnRate = baseDistance / movementSpeed;
+
         if (timer < spawnRate)
         {
             timer += Time.deltaTime;

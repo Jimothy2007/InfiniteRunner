@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   playerPrefab: {fileID: 4334648560787855621, guid: 6b641a501e83087418d08425281b867d, type: 3}
   movementSpeed: 4
+  spawnRate: 4
   difficultyScale: 0.1
 --- !u!4 &97001481
 Transform:
@@ -335,9 +336,7 @@ MonoBehaviour:
   groundPrefab1: {fileID: 2417843257791385672, guid: ddf68f78d5a77cf4e829d57cdb7520c5, type: 3}
   groundPrefab2: {fileID: 3416695468417282452, guid: f6898139bdd0c674ebc7528641dd6e1e, type: 3}
   obstacle: {fileID: 8248717796257520691, guid: d8023b4caabe9e14f92c02e34c4d5659, type: 3}
-  spawnRate: 0
   timer: 0
-  baseDistance: 18
 --- !u!4 &548441108
 Transform:
   m_ObjectHideFlags: 0
@@ -638,7 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundSpawner
   backgroundPrefab: {fileID: 5136772210038706399, guid: d682ee42104949b49aa06d8789a0989d, type: 3}
-  baseDistance: 25
+  spawnRate: 11.75
   timer: 0
 --- !u!1001 &3527425818389799795
 PrefabInstance:

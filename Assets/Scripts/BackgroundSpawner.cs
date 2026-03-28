@@ -3,7 +3,8 @@ using UnityEngine;
 public class BackgroundSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject backgroundPrefab;
-    [SerializeField] private float spawnRate = 5f;
+    private float spawnRate = 5f;
+    [SerializeField] private float baseDistance = 50f;
     [SerializeField] private float timer = 0f;
     void Start()
     {
@@ -12,6 +13,10 @@ public class BackgroundSpawner : MonoBehaviour
 
     void Update()
     {
+        var movementSpeed = GameManager.instance.movementSpeed / 2f;
+
+        spawnRate = baseDistance / movementSpeed;
+
         if (timer < spawnRate)
         {
             timer += Time.deltaTime;
