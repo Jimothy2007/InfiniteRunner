@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject deathScreenPanel;
+    [SerializeField] private GameObject pauseScreenPanel;
     private float score = 0;
     public float movementSpeed = 4f;
     [SerializeField] private float difficultyScale = 0.1f;
@@ -21,6 +23,18 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        var deathUIScript = FindFirstObjectByType<DeathScreenUIScript>();
+        if (deathUIScript != null)
+        {
+            deathScreenPanel = deathUIScript.gameObject;
+        }
+
+        var pauseUIScript = FindFirstObjectByType<PauseScreenUIScript>();
+        if (pauseUIScript != null)
+        {
+            pauseScreenPanel = pauseUIScript.gameObject;
         }
     }
 
@@ -42,6 +56,18 @@ public class GameManager : MonoBehaviour
             movementSpeed = 4f;
             isGameOver = false;
             SpawnPlayer();
+
+            var deathUIScript = FindFirstObjectByType<DeathScreenUIScript>();
+            if (deathUIScript != null)
+            {
+                deathScreenPanel = deathUIScript.gameObject;
+            }
+
+            var pauseUIScript = FindFirstObjectByType<PauseScreenUIScript>();
+            if (pauseUIScript != null)
+            {
+                pauseScreenPanel = pauseUIScript.gameObject;
+            }
         }
     }
 
@@ -76,12 +102,45 @@ public class GameManager : MonoBehaviour
 
     public void Death()
     {
+        if (isGameOver) return;
+
         isGameOver = true;
-        DeathScreenUIScript.instance.ShowDeathScreen();
+        deathScreenPanel.GetComponent<DeathScreenUIScript>().ShowDeathScreen();
     }
 
     public float getScore()
     {
         return score;
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        pauseScreenPanel.GetComponent<PauseScreenUIScript>().ShowPauseScreen();
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        pauseScreenPanel.SetActive(false);
+    }
+    public void QuitGame()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void TitleScreen()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("TitleScreen");
     }
 }

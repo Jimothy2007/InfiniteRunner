@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 7f;
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool jumpPressed;
+    [SerializeField] private bool isGamePaused = false;
     [SerializeField] private int health = 3;
     
     private float iFramesDuration = 1f;
@@ -73,6 +74,22 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Jump Pressed");
         jumpPressed = value.isPressed;
+    }
+
+    void OnPauseGame(InputValue value)
+    {
+        if (value.isPressed && !isGamePaused)
+        {
+            isGamePaused = true;
+            Debug.Log("Pause Pressed");
+            GameManager.instance.PauseGame();
+        }
+        else if (value.isPressed && isGamePaused)
+        {
+            isGamePaused = false;
+            Debug.Log("Resume Pressed");
+            GameManager.instance.ResumeGame();
+        }
     }
 
     void takeDamage(int damage)
