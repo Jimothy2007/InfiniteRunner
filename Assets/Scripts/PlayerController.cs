@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool jumpPressed;
     [SerializeField] private int health = 3;
-    [SerializeField] private bool isAlive = true;
-
+    
+    private float iFramesDuration = 1f;
+    private float iFramesTimer = 0f;
     private Rigidbody2D rb;
     private UnityEngine.InputSystem.PlayerInput controls;
 
@@ -36,14 +37,23 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
         }
+
+        if (iFramesTimer > 0)
+        {
+            iFramesTimer -= Time.fixedDeltaTime;
+            GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().color = Color.white;
+        }
     }
 
     private void Update()
     {
-        if (health <= 0 && isAlive)
+        if (health <= 0 || (transform.position.y <= -6))
         {
-            isAlive = false;
-            Debug.Log("Player has died.");
+            GameManager.instance.Death();
         }
     }
     void OnTriggerEnter2D(UnityEngine.Collider2D collision)
@@ -52,9 +62,10 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if ((collision.gameObject.CompareTag("Obstacle")) && (iFramesTimer <= 0))
         {
             takeDamage(1);
+            iFramesTimer = iFramesDuration;
         }
     }
 

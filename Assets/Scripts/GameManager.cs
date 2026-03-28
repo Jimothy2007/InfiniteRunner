@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     [SerializeField] private GameObject playerPrefab;
-    private int score = 0;
+    private float score = 0;
     public float movementSpeed = 4f;
     [SerializeField] private float difficultyScale = 0.1f;
     private bool isGameOver = false;
@@ -22,7 +23,29 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    void Start()
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainScene")
+        {
+            score = 0;
+            movementSpeed = 4f;
+            isGameOver = false;
+            SpawnPlayer();
+        }
+    }
+
+    void SpawnPlayer()
     {
         if (playerPrefab != null)
         {
@@ -36,16 +59,29 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        movementSpeed += Time.deltaTime * difficultyScale;
+        if (!isGameOver)
+        {
+            movementSpeed += Time.deltaTime * difficultyScale;
+        }
+        else if (isGameOver)
+        {
+            movementSpeed = 0f;
+        }
 
         if (!isGameOver)
         {
-            score += Mathf.RoundToInt(Time.deltaTime * 10);
+            score += (movementSpeed * 10) * Time.deltaTime;
         }
     }
 
     public void Death()
     {
         isGameOver = true;
+        DeathScreenUIScript.instance.ShowDeathScreen();
+    }
+
+    public float getScore()
+    {
+        return score;
     }
 }
