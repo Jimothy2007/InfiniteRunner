@@ -5,9 +5,10 @@ public class GroundSpawn : MonoBehaviour
     [SerializeField] private GameObject groundPrefab1;
     [SerializeField] private GameObject groundPrefab2;
     [SerializeField] private GameObject obstacle;
-    [SerializeField] private float spawnRate = 4f;
-    [SerializeField] private float timer = 0f;
     [SerializeField] private float baseDistance = 10f;
+
+    private GameObject lastGround;
+
     void Start()
     {
         spawnGround();
@@ -15,18 +16,14 @@ public class GroundSpawn : MonoBehaviour
 
     void Update()
     {
-        float movementSpeed = GameManager.instance.movementSpeed;
-
-        spawnRate = baseDistance / movementSpeed;
-
-        if (timer < spawnRate)
+        if (lastGround != null)
         {
-            timer += Time.deltaTime;
-        }
-        else
-        {
-            spawnGround();
-            timer = 0;
+            float movementSpeed = GameManager.instance.movementSpeed;
+
+            if (lastGround.transform.position.x <= transform.position.x)
+            {
+                spawnGround();
+            }
         }
     }
 
@@ -43,14 +40,16 @@ public class GroundSpawn : MonoBehaviour
             highestPoint -= 0.25f;
         }
 
-        GameObject groundInstance = Instantiate(randomPrefab, new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), transform.position.z), Quaternion.identity);
-
-        var randNum = Random.Range(0, 3);
-
-        if ((randNum == 0) || (randNum == 1))
+        var spawnX = transform.position.x;
+        if (lastGround != null)
         {
-            spawnObstacle(groundInstance);
+            spawnX = lastGround.transform.position.x + baseDistance;
         }
+
+        Vector2 spawnPosition = new Vector2(spawnX, Random.Range(lowestPoint, highestPoint));
+        lastGround = Instantiate(randomPrefab, spawnPosition, Quaternion.identity);
+
+        spawnObstacle(lastGround);
     }
 
     void spawnObstacle(GameObject groundInstance)

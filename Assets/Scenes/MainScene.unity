@@ -1813,8 +1813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundSpawner
   backgroundPrefab: {fileID: 5136772210038706399, guid: d682ee42104949b49aa06d8789a0989d, type: 3}
-  baseDistance: 25
-  timer: 0
+  baseDistance: 23
 --- !u!1 &2134044803
 GameObject:
   m_ObjectHideFlags: 0

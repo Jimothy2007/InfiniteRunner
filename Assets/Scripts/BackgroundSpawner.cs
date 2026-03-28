@@ -3,9 +3,9 @@ using UnityEngine;
 public class BackgroundSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject backgroundPrefab;
-    private float spawnRate = 5f;
-    [SerializeField] private float baseDistance = 50f;
-    [SerializeField] private float timer = 0f;
+    [SerializeField] private float baseDistance = 40f;
+
+    private GameObject lastBackground;
     void Start()
     {
         spawnBackground();
@@ -15,21 +15,24 @@ public class BackgroundSpawner : MonoBehaviour
     {
         var movementSpeed = GameManager.instance.movementSpeed / 2f;
 
-        spawnRate = baseDistance / movementSpeed;
-
-        if (timer < spawnRate)
+        if (lastBackground != null)
         {
-            timer += Time.deltaTime;
-        }
-        else
-        {
-            spawnBackground();
-            timer = 0;
+            var distanceSinceLast = lastBackground.transform.position.x - transform.position.x;
+            if (distanceSinceLast <= -baseDistance)
+            {
+                spawnBackground();
+            }
         }
     }
 
     void spawnBackground()
     {
-        Instantiate(backgroundPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        Vector2 spawnPosition = transform.position;
+        if (lastBackground != null)
+        {
+            spawnPosition.x = lastBackground.transform.position.x + baseDistance;
+        }
+
+        lastBackground = Instantiate(backgroundPrefab, spawnPosition, Quaternion.identity);
     }
 }
