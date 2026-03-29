@@ -129,6 +129,9 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
 
         isGameOver = true;
+        heart1.SetActive(false);
+        heart2.SetActive(false);
+        heart3.SetActive(false);
         backgroundMusic1.Stop();
         backgroundMusic2.Stop();
         deathSound.Play();
