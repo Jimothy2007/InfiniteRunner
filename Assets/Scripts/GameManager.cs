@@ -80,6 +80,10 @@ public class GameManager : MonoBehaviour
             {
                 pauseScreenPanel = pauseUIScript.gameObject;
             }
+
+            heart1 = GameObject.Find("Heart 1");
+            heart2 = GameObject.Find("Heart 2");
+            heart3 = GameObject.Find("Heart 3");
         }
     }
 
