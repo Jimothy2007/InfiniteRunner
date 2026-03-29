@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,11 @@ public class GameManager : MonoBehaviour
     public float movementSpeed = 4f;
     [SerializeField] private float difficultyScale = 0.1f;
     private bool isGameOver = false;
+
+    [SerializeField] private AudioSource increasedScore;
+    [SerializeField] private AudioSource backgroundMusic1;
+    [SerializeField] private AudioSource backgroundMusic2;
+    [SerializeField] private AudioSource deathSound;
 
     private void Awake()
     {
@@ -36,6 +42,8 @@ public class GameManager : MonoBehaviour
         {
             pauseScreenPanel = pauseUIScript.gameObject;
         }
+
+        StartCoroutine(MusicLoop());
     }
 
     private void OnEnable()
@@ -98,6 +106,14 @@ public class GameManager : MonoBehaviour
         {
             score += (movementSpeed * 10) * Time.deltaTime;
         }
+
+        if (score > 0 && Mathf.FloorToInt(score) % 1000 == 0)
+        {
+            if (!increasedScore.isPlaying)
+            {
+                increasedScore.Play();
+            }
+        }
     }
 
     public void Death()
@@ -105,6 +121,9 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
 
         isGameOver = true;
+        backgroundMusic1.Stop();
+        backgroundMusic2.Stop();
+        deathSound.Play();
         deathScreenPanel.GetComponent<DeathScreenUIScript>().ShowDeathScreen();
     }
 
@@ -142,5 +161,53 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScreen");
+    }
+
+    private IEnumerator MusicLoop()
+    {
+        float fadeDuration = 4f;
+
+        backgroundMusic1.volume = 1f;
+        backgroundMusic2.volume = 0f;
+
+        backgroundMusic1.Play();
+
+        while (!isGameOver)
+        {
+            yield return new WaitForSeconds(backgroundMusic1.clip.length - fadeDuration);
+
+            backgroundMusic2.Play();
+
+            StartCoroutine(Fade(backgroundMusic1, 0f, fadeDuration));
+            StartCoroutine(Fade(backgroundMusic2, 0.75f, fadeDuration));
+
+            yield return new WaitForSeconds(fadeDuration);
+
+            backgroundMusic1.Stop();
+
+            yield return new WaitForSeconds(backgroundMusic2.clip.length - fadeDuration);
+
+            backgroundMusic1.Play();
+
+            StartCoroutine(Fade(backgroundMusic1, 1f, fadeDuration));
+            StartCoroutine(Fade(backgroundMusic2, 0f, fadeDuration));
+
+            yield return new WaitForSeconds(fadeDuration);
+
+            backgroundMusic2.Stop();
+        }
+    }
+
+    private IEnumerator Fade(AudioSource audioSource, float targetVolume, float duration)
+    {
+        float startVolume = audioSource.volume;
+        float time = 0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, targetVolume, time / duration);
+            yield return null;
+        }
+        audioSource.volume = targetVolume;
     }
 }

@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
     private UnityEngine.InputSystem.PlayerInput controls;
     private Animator animator;
 
+    [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource damageSound;
+
     void Start()
     {
         if (rb == null)
@@ -29,6 +32,14 @@ public class PlayerController : MonoBehaviour
         {
             animator = GetComponent<Animator>();
         }
+        if (jumpSound == null)
+        {
+            Debug.LogWarning("Jump sound not assigned in inspector. Attempting to find an AudioSource component.");
+        }
+        if(damageSound == null)
+        {
+            Debug.LogWarning("Damage sound not assigned in inspector. Attempting to find an AudioSource component.");
+        }
     }
 
     void FixedUpdate()
@@ -37,6 +48,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
             isGrounded = false;
+            jumpSound.Play();
         }
 
         if (!jumpPressed && rb.linearVelocity.y > 0)
@@ -104,6 +116,11 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player took damage: " + damage);
         health -= damage;
+
+        if (!damageSound.isPlaying)
+        {
+            damageSound.Play();
+        }
 
         if (health <= 0)
         {
