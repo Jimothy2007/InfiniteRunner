@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player took damage: " + damage);
         health -= damage;
+        GameManager.instance.UpdateHearts(health);
 
         if (!damageSound.isPlaying)
         {

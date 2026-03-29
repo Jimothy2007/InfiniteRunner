@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject deathScreenPanel;
     [SerializeField] private GameObject pauseScreenPanel;
+    [SerializeField] private GameObject heart1;
+    [SerializeField] private GameObject heart2;
+    [SerializeField] private GameObject heart3;
+
     private float score = 0;
     public float movementSpeed = 4f;
     [SerializeField] private float difficultyScale = 0.1f;
@@ -209,5 +213,12 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         audioSource.volume = targetVolume;
+    }
+
+    public void UpdateHearts(int health)
+    {
+        heart1.SetActive(health >= 3);
+        heart2.SetActive(health >= 2);
+        heart3.SetActive(health >= 1);
     }
 }
