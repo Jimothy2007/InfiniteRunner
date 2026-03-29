@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float iFramesTimer = 0f;
     private Rigidbody2D rb;
     private UnityEngine.InputSystem.PlayerInput controls;
+    private Animator animator;
 
     void Start()
     {
@@ -23,6 +24,10 @@ public class PlayerController : MonoBehaviour
         if (controls == null)
         {
             controls = GetComponent<UnityEngine.InputSystem.PlayerInput>();
+        }
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
         }
     }
 
@@ -56,6 +61,9 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.instance.Death();
         }
+
+        animator.SetBool("isGrounded", isGrounded);
+        animator.SetFloat("yVelocity", rb.linearVelocity.y);
     }
     void OnTriggerEnter2D(UnityEngine.Collider2D collision)
     {
